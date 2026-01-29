@@ -1,0 +1,585 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Leave Application Form</title>
+    
+    <!-- Flatpickr CSS for the calendar -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #f8f9fa;
+            min-height: 100vh;
+            padding: 20px;
+            animation: fadeIn 0.8s ease-in;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            animation: slideUp 0.9s ease-out;
+        }
+
+        @keyframes slideUp {
+            from { transform: translateY(50px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        .header {
+            text-align: center;
+            padding: 30px 20px;
+            background: white;
+            border-bottom: 1px solid #e9ecef;
+        }
+
+        .logo {
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .logo svg {
+            height: 60px;
+            width: auto;
+        }
+
+        .header h1 {
+            font-size: 24px;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: #2d3436;
+        }
+
+        .header p {
+            color: #636e72;
+            font-size: 14px;
+        }
+
+        .form-container {
+            padding: 30px;
+        }
+
+        .section {
+            margin-bottom: 32px;
+            animation: slideInLeft 0.6s ease-out;
+            animation-fill-mode: both;
+        }
+
+        .section:nth-child(1) { animation-delay: 0.1s; }
+        .section:nth-child(2) { animation-delay: 0.2s; }
+        .section:nth-child(3) { animation-delay: 0.3s; }
+
+        @keyframes slideInLeft {
+            from { transform: translateX(-30px); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+
+        .section-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 24px;
+            color: #2d3436;
+        }
+
+        .section-icon {
+            width: 24px;
+            height: 24px;
+            margin-right: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #6c5ce7;
+        }
+
+        .section-icon svg {
+            width: 20px;
+            height: 20px;
+            fill: #6c5ce7;
+            stroke: none;
+        }
+
+        .section-title {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 2px;
+        }
+
+        .section-subtitle {
+            color: #636e72;
+            font-size: 13px;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+            margin-bottom: 16px;
+        }
+
+        .form-group {
+            position: relative;
+        }
+
+        .form-group.full-width {
+            grid-column: 1 / -1;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 6px;
+            font-weight: 500;
+            color: #2d3436;
+            font-size: 14px;
+        }
+
+        .required {
+            color: #e17055;
+        }
+
+        input:not([readonly]), select, textarea {
+            width: 100%;
+            padding: 10px 12px;
+            border: none;
+            border-radius: 6px;
+            font-size: 14px;
+            transition: all 0.2s ease;
+            background: #f8f9fa;
+            color: #636e72;
+        }
+
+        input:not([readonly]):focus, select:focus, textarea:focus {
+            outline: none;
+            background: #f1f3f4;
+            box-shadow: none;
+        }
+
+        input:not([readonly]):hover, select:hover, textarea:hover {
+            background: #f1f3f4;
+        }
+
+        input, select, textarea {
+            font-family: inherit;
+        }
+
+
+        select {
+            cursor: pointer;
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236c5ce7' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M6 8l4 4 4-4'/%3e%3c/svg%3e");
+            background-position: right 12px center;
+            background-repeat: no-repeat;
+            background-size: 16px;
+            padding-right: 40px;
+        }
+
+        .days-info {
+            background: #e8f4fd;
+            color: #2d3436;
+            padding: 16px;
+            border-radius: 8px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 16px;
+            border: 1px solid #ddd;
+            animation: bounceIn 0.8s ease-out;
+        }
+
+        .days-info-left {
+            display: flex;
+            align-items: center;
+        }
+
+        .days-info-icon {
+            width: 20px;
+            height: 20px;
+            margin-right: 10px;
+            color: #6c5ce7;
+        }
+
+        .days-count {
+            font-size: 20px;
+            font-weight: 600;
+            color: #2d3436;
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        .char-count {
+            text-align: right;
+            color: #666;
+            font-size: 12px;
+            margin-top: 5px;
+        }
+
+        .submit-btn {
+            background: #6c5ce7;
+            color: white;
+            border: none;
+            padding: 16px 32px;
+            border-radius: 6px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            margin-top: 24px;
+            width: 100%;
+        }
+
+        .submit-btn:hover {
+            background: #5a4fcf;
+            transform: translateY(-1px);
+        }
+    </style>
+</head>
+<body>
+        <div class="container">
+        <div class="header">
+            <!-- SVG Logo remains the same -->
+             <div class="logo">
+                <svg width="161" height="85" viewBox="0 0 161 85" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <g clip-path="url(#clip0_936_24115)">
+                        <mask id="mask0_936_24115" style="mask-type:luminance" maskUnits="userSpaceOnUse" x="13" y="9" width="64" height="125">
+                            <path d="M13.1172 133.771H76.0274V9.02298H13.1172V133.771Z" fill="white"/>
+                        </mask>
+                        <g mask="url(#mask0_936_24115)">
+                            <path d="M43.6399 66.9462C44.0142 68.4431 44.43 69.8985 44.929 71.3955C44.8458 69.857 44.8042 68.3184 44.8042 66.8214C44.43 66.863 44.0557 66.9046 43.6399 66.9462ZM33.9096 21.7044C29.9593 20.8312 26.0089 19.9579 22.0586 19.0847C22.3913 23.2014 22.9734 27.2349 23.8051 31.1021C25.2189 31.0189 26.6327 30.9773 28.0465 30.8941V29.1477C29.9593 29.1477 31.8721 29.1477 33.7849 29.1477C36.6125 29.1477 39.4401 29.1477 42.2677 29.1477C46.6339 29.1893 50.7089 30.7278 53.9524 33.3059C55.283 31.0605 56.7384 28.9813 58.277 27.027C50.1684 25.2805 42.0182 23.4924 33.9096 21.7044ZM45.927 38.7116C45.1369 38.2958 44.3468 38.0047 43.5152 37.7968C41.8519 44.2005 41.3113 51.2696 42.1014 58.6297C43.2657 58.5049 44.3468 58.2139 45.428 57.7149C46.1765 52.226 47.5903 47.0697 49.4615 42.2877C48.6714 40.8324 47.4655 39.5849 45.927 38.7116Z" fill="#591765"/>
+                        </g>
+                        <mask id="mask1_936_24115" style="mask-type:luminance" maskUnits="userSpaceOnUse" x="13" y="9" width="64" height="125">
+                            <path d="M13.0938 133.788H76.004V9.04055H13.0938V133.788Z" fill="white"/>
+                        </mask>
+                        <g mask="url(#mask1_936_24115)">
+                            <path d="M23.7805 31.1196C25.1943 31.0365 26.6081 30.9949 28.0219 30.9117V45.1329V57.275C21.7845 50.206 16.5867 41.5568 13.0938 31.6186C16.6698 31.4523 20.2044 31.286 23.7805 31.1196ZM44.9044 71.4131C44.4054 69.9161 43.9896 68.4607 43.6153 66.9638C43.2827 67.0053 42.95 67.0053 42.6173 67.0053C42.4926 67.0053 42.3678 67.0053 42.2015 67.0053C41.7857 67.0053 41.3699 67.0053 40.954 67.0053C40.1224 67.0053 39.2907 67.0053 38.4175 67.0053C40.5382 68.6271 42.7005 70.0824 44.9044 71.4131ZM42.1183 58.6473C41.2867 51.2872 41.8688 44.2181 43.5321 37.8144C41.7025 37.357 39.7897 37.3986 37.8769 37.3986V54.8632V58.8136C38.3343 58.8136 38.7502 58.8136 39.2076 58.8136C40.164 58.8136 41.1619 58.772 42.1183 58.6473Z" fill="#EC1C41"/>
+                        </g>
+                        <mask id="mask2_936_24115" style="mask-type:luminance" maskUnits="userSpaceOnUse" x="13" y="9" width="64" height="125">
+                            <path d="M13.1484 133.754H76.0587V9.00639H13.1484V133.754Z" fill="white"/>
+                        </mask>
+                        <g mask="url(#mask2_936_24115)">
+                            <path d="M45.4984 57.7012C45.6648 57.618 45.8311 57.5349 45.9558 57.4517C49.2824 55.5805 51.0289 51.7965 51.0289 48.0541C51.0289 46.0581 50.5299 44.0205 49.5319 42.2741C47.6607 47.0561 46.2885 52.2123 45.4984 57.7012ZM44.9579 71.3818C45.2905 69.7601 45.7063 68.1384 46.1222 66.5583C45.7063 66.6414 45.2905 66.7246 44.8331 66.7662C44.8331 68.3047 44.8747 69.8433 44.9579 71.3818ZM35.477 9.00807C34.687 13.2911 34.188 17.5325 33.9385 21.6907C42.0471 23.4788 50.1973 25.2668 58.3058 27.0133C56.7673 28.9677 55.3119 31.0468 53.9813 33.2923C56.2683 35.0803 58.1395 37.4089 59.4286 40.0286C63.171 35.2466 67.4124 31.1716 71.9033 27.8449C59.7612 21.566 47.6191 15.287 35.477 9.00807ZM54.7297 35.6625C54.2723 35.2051 53.8149 34.7892 53.3159 34.415C51.1121 32.6269 48.5755 31.421 45.8727 30.8389C44.7084 30.5894 43.4609 30.4231 42.255 30.4231C41.0491 30.4231 39.8016 30.4231 38.5957 30.4231C38.2215 30.4231 37.8888 30.4231 37.5146 30.4231C36.2671 30.4231 35.0196 30.4231 33.8137 30.4231C33.4811 30.4231 33.1484 30.4231 32.7742 30.4231C31.6099 30.4231 30.4456 30.4231 29.2812 30.4231V30.8389V31.5874C30.0713 31.5874 30.8198 31.5874 31.6099 31.5874C32.3584 31.5874 33.1068 31.5874 33.8137 31.5874C34.6454 31.5874 35.477 31.5874 36.3087 31.5874C37.8888 31.5874 39.469 31.5874 41.0491 31.5874C42.5045 31.5874 43.9183 31.7953 45.2905 32.1279C47.9102 32.7933 50.322 34.0823 52.4427 35.8704C52.8169 36.1615 53.1496 36.4941 53.4823 36.8268C55.1872 38.5317 56.5178 40.486 57.391 42.6067C58.2643 44.6859 58.7217 46.9313 58.7217 49.2599C58.7217 53.6261 57.0999 57.7428 54.106 61.0278C54.2723 60.8615 54.4387 60.6951 54.605 60.5288C58.0148 57.1606 59.8444 52.7529 59.8444 48.0956C59.8444 45.6838 59.3454 43.3552 58.389 41.1929C57.6405 39.1554 56.3515 37.2842 54.7297 35.6625ZM45.3321 59.1566C44.3341 59.5308 43.3361 59.7803 42.3382 59.9051C41.4233 60.0298 40.5501 60.0714 39.7185 60.0714C39.3026 60.0714 38.9284 60.0714 38.5541 60.0714H36.6829V50.3827V37.2426H35.5186V45.1849V59.4477V61.1941H36.6829H37.3898C38.2631 61.1941 39.1779 61.1941 40.1343 61.111C40.8828 61.0694 41.6728 60.9446 42.4629 60.7783C43.4193 60.5704 44.3341 60.2377 45.2489 59.7803C45.3321 59.7387 45.3737 59.6972 45.4568 59.6972C46.538 59.115 47.4944 58.3249 48.2845 57.3685C47.7855 57.8259 47.2033 58.2002 46.6212 58.5328C46.1637 58.7823 45.7479 58.9902 45.3321 59.1566Z" fill="#361347"/>
+                        </g>
+                    </g>
+                    <path d="M76.424 63.32C74.3973 63.32 72.6587 62.9893 71.208 62.328C69.7787 61.6667 68.6587 60.696 67.848 59.416C67.0587 58.136 66.6213 56.5467 66.536 54.648C66.5147 53.7733 66.504 52.8347 66.504 51.832C66.504 50.8293 66.5147 49.8693 66.536 48.952C66.6213 47.096 67.0693 45.528 67.88 44.248C68.6907 42.9467 69.8213 41.9653 71.272 41.304C72.7227 40.6213 74.44 40.28 76.424 40.28C77.832 40.28 79.1333 40.4613 80.328 40.824C81.5227 41.1653 82.568 41.6773 83.464 42.36C84.36 43.0213 85.0533 43.832 85.544 44.792C86.056 45.7307 86.3227 46.7973 86.344 47.992C86.3653 48.184 86.3013 48.344 86.152 48.472C86.024 48.6 85.864 48.664 85.672 48.664H81.352C81.0747 48.664 80.8613 48.6107 80.712 48.504C80.5627 48.376 80.4347 48.152 80.328 47.832C80.0293 46.7013 79.5387 45.9333 78.856 45.528C78.1947 45.1013 77.3733 44.888 76.392 44.888C75.2187 44.888 74.2907 45.2187 73.608 45.88C72.9253 46.52 72.552 47.5973 72.488 49.112C72.424 50.8613 72.424 52.6533 72.488 54.488C72.552 56.0027 72.9253 57.0907 73.608 57.752C74.2907 58.392 75.2187 58.712 76.392 58.712C77.3733 58.712 78.2053 58.4987 78.888 58.072C79.5707 57.6453 80.0507 56.8773 80.328 55.768C80.4133 55.448 80.5307 55.2347 80.68 55.128C80.8507 55 81.0747 54.936 81.352 54.936H85.672C85.864 54.936 86.024 55 86.152 55.128C86.3013 55.256 86.3653 55.416 86.344 55.608C86.3227 56.8027 86.056 57.88 85.544 58.84C85.0533 59.7787 84.36 60.5893 83.464 61.272C82.568 61.9333 81.5227 62.4453 80.328 62.808C79.1333 63.1493 77.832 63.32 76.424 63.32ZM88.1475 63C87.9768 63 87.8168 62.936 87.6675 62.808C87.5395 62.6587 87.4755 62.4987 87.4755 62.328C87.4755 62.2213 87.4862 62.1253 87.5075 62.04L95.0275 41.496C95.0915 41.2613 95.2195 41.0587 95.4115 40.888C95.6248 40.696 95.9128 40.6 96.2755 40.6H101.012C101.374 40.6 101.652 40.696 101.844 40.888C102.057 41.0587 102.196 41.2613 102.26 41.496L109.748 62.04C109.79 62.1253 109.812 62.2213 109.812 62.328C109.812 62.4987 109.737 62.6587 109.588 62.808C109.46 62.936 109.3 63 109.108 63H105.172C104.852 63 104.606 62.9253 104.436 62.776C104.286 62.6053 104.19 62.456 104.148 62.328L102.9 59.064H94.3555L93.1395 62.328C93.0968 62.456 93.0008 62.6053 92.8515 62.776C92.7022 62.9253 92.4462 63 92.0835 63H88.1475ZM95.6675 54.456H101.62L98.6115 46.008L95.6675 54.456ZM120.342 63.32C118.209 63.32 116.438 63.0213 115.03 62.424C113.622 61.8053 112.555 61.0053 111.83 60.024C111.105 59.0427 110.721 57.9973 110.678 56.888C110.678 56.7173 110.742 56.568 110.87 56.44C111.019 56.2907 111.19 56.216 111.382 56.216H115.414C115.713 56.216 115.937 56.2693 116.086 56.376C116.257 56.4827 116.406 56.6213 116.534 56.792C116.705 57.112 116.939 57.4213 117.238 57.72C117.558 58.0187 117.963 58.264 118.454 58.456C118.966 58.6267 119.595 58.712 120.342 58.712C121.579 58.712 122.507 58.52 123.126 58.136C123.766 57.752 124.086 57.2293 124.086 56.568C124.086 56.0987 123.915 55.7147 123.574 55.416C123.233 55.096 122.678 54.8187 121.91 54.584C121.163 54.328 120.161 54.072 118.902 53.816C117.281 53.4747 115.894 53.0373 114.742 52.504C113.611 51.9493 112.747 51.2347 112.15 50.36C111.553 49.464 111.254 48.3547 111.254 47.032C111.254 45.7307 111.617 44.568 112.342 43.544C113.089 42.52 114.123 41.72 115.446 41.144C116.769 40.568 118.337 40.28 120.15 40.28C121.622 40.28 122.913 40.472 124.022 40.856C125.153 41.24 126.102 41.752 126.87 42.392C127.638 43.032 128.214 43.7147 128.598 44.44C129.003 45.144 129.217 45.8373 129.238 46.52C129.238 46.6907 129.174 46.8507 129.046 47C128.918 47.128 128.758 47.192 128.566 47.192H124.342C124.107 47.192 123.905 47.1493 123.734 47.064C123.563 46.9787 123.414 46.84 123.286 46.648C123.158 46.1787 122.817 45.7733 122.262 45.432C121.729 45.0693 121.025 44.888 120.15 44.888C119.211 44.888 118.475 45.0587 117.942 45.4C117.43 45.72 117.174 46.2213 117.174 46.904C117.174 47.3307 117.313 47.704 117.59 48.024C117.889 48.344 118.369 48.6213 119.03 48.856C119.713 49.0907 120.641 49.336 121.814 49.592C123.755 49.9547 125.323 50.4133 126.518 50.968C127.713 51.5013 128.587 52.2053 129.142 53.08C129.697 53.9333 129.974 55.0107 129.974 56.312C129.974 57.7627 129.558 59.0213 128.726 60.088C127.915 61.1333 126.785 61.9333 125.334 62.488C123.883 63.0427 122.219 63.32 120.342 63.32ZM133.978 63C133.743 63 133.551 62.9253 133.402 62.776C133.252 62.6267 133.178 62.4347 133.178 62.2V41.4C133.178 41.1653 133.252 40.9733 133.402 40.824C133.551 40.6747 133.743 40.6 133.978 40.6H138.106C138.34 40.6 138.532 40.6747 138.682 40.824C138.831 40.9733 138.906 41.1653 138.906 41.4V49.112H146.81V41.4C146.81 41.1653 146.884 40.9733 147.034 40.824C147.183 40.6747 147.375 40.6 147.61 40.6H151.738C151.972 40.6 152.164 40.6747 152.314 40.824C152.463 40.9733 152.538 41.1653 152.538 41.4V62.2C152.538 62.4347 152.463 62.6267 152.314 62.776C152.164 62.9253 151.972 63 151.738 63H147.61C147.375 63 147.183 62.9253 147.034 62.776C146.884 62.6267 146.81 62.4347 146.81 62.2V54.232H138.906V62.2C138.906 62.4347 138.831 62.6267 138.682 62.776C138.532 62.9253 138.34 63 138.106 63H133.978Z" fill="#591765"/>
+                    <defs>
+                        <clipPath id="clip0_936_24115">
+                            <rect width="85" height="85" fill="white"/>
+                        </clipPath>
+                    </defs>
+                </svg>
+            </div>
+            <h1>LEAVE APPLICATION</h1>
+            <p>Please complete all required fields</p>
+        </div>
+
+        <div class="form-container">
+            <form id="leaveForm">
+                <div class="section">
+                    <div class="section-header">
+                        <div class="section-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 3c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm0 14.2c-2.5 0-4.71-1.28-6-3.22.03-1.99 4-3.08 6-3.08 1.99 0 5.97 1.09 6 3.08-1.29 1.94-3.5 3.22-6 3.22z"/></svg>
+                        </div>
+                        <div>
+                            <div class="section-title">Personal Details</div>
+                            <div class="section-subtitle">Your personal details</div>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="applicantEmail">Your company email address <span class="required">*</span></label>
+                            <div class="dropdown-wrapper">
+                                <select name="applicantEmail" id="applicantEmail" required>
+                                    <option value="">Select your email</option>
+                                    <option value="shiku.muchoki@dcash.africa">shiku.muchoki@dcash.africa</option>
+                                    <option value="peter.kayere@dcash.africa">peter.kayere@dcash.africa</option>
+                                    <option value="paul.wahome@dcash.africa">paul.wahome@dcash.africa</option>
+                                    <option value="liz.wangechi@dcash.africa">liz.wangechi@dcash.africa</option>
+                                    <option value="lenny.steve@dcash.co.ke">lenny.steve@dcash.co.ke</option>
+                                    <option value="bridgetwanjiku@dcash.co.ke">bridgetwanjiku@dcash.co.ke</option>
+                                    <option value="charlottemumbi@dcash.co.ke">charlottemumbi@dcash.co.ke</option>
+                                    <option value="ritamargret@dcash.co.ke">ritamargret@dcash.co.ke</option>
+                                    <option value="mike.muiruri@dcash.co.ke">mike.muiruri@dcash.co.ke</option>
+                                    <option value="victor.mwakireti@dcash.co.ke">victor.mwakireti@dcash.co.ke</option>
+                                    <option value="ian.masae@dcash.co.ke">ian.masae@dcash.co.ke</option>
+                                    <option value="stephen.agai@dcash.co.ke">stephen.agai@dcash.co.ke</option>
+                                    <option value="victor.kilyungi@dcash.co.ke">victor.kilyungi@dcash.co.ke</option>
+                                    <option value="daniel.dawe@dcash.co.ke">daniel.dawe@dcash.co.ke</option>
+                                    <option value="robinson.muhia@dcash.co.ke">robinson.muhia@dcash.co.ke</option>
+                                    <option value="ephraim.kisaka@dcash.co.ke">ephraim.kisaka@dcash.co.ke</option>
+                                    <option value="alex.njoroge@dcash.co.ke">alex.njoroge@dcash.co.ke</option>
+                                    <option value="lina.muthoni@dcash.co.ke">lina.muthoni@dcash.co.ke</option>
+                                    <option value="cecily.wahome@dcash.co.ke">cecily.wahome@dcash.co.ke</option>
+                                    <option value="nasin.gedi@dcash.co.ke">nasin.gedi@dcash.co.ke</option>
+                                    <option value="geoffrey.k.omukuba@dcash.co.ke">geoffrey.k.omukuba@dcash.co.ke</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>Employee number</label>
+                            <input name="Employee number" type="number" required>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Full Name</label>
+                            <input name="Full Name" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Position/Role</label>
+                            <input name="Positon/Role" required>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="department">Department <span class="required">*</span></label>
+                            <div class="dropdown-wrapper">
+                                <select name="department" id="department" required>
+                                    <option value="">Select department</option>
+                                    <option value="Customer support">Customer support</option>
+                                    <option value="marketing">Marketing</option>
+                                    <option value="Tech">Tech</option>
+                                    <option value="Business Development/Education">BD/Education</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="supervisor">Immediate Supervisor <span class="required">*</span></label>
+                            <div class="dropdown-wrapper">
+                               <select name="Immediate Supervisor" id="supervisor" required>
+                                    <option value="">Select supervisor</option>
+                                    <option>Steve Lenny (Marketing)</option>
+                                    <option>Paul Wahome (BD & Education)</option>
+                                    <option>Victor Kilyungi (Tech)</option>
+                                    <option>Rita Margaret (Customer Support)</option>
+                                    <option>Elizabeth Wangechi (HR)</option>
+                                    <option>Ian Masae (Tech)</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="section">
+                    <div class="section-header">
+                        <div class="section-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M9 11H7v2h2v-2zm4 0h-2v2h2v-2zm4 0h-2v2h2v-2zm2-7h-1V2h-2v2H8V2H6v2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 16H5V9h14v11z"/></svg>
+                        </div>
+                        <div>
+                            <div class="section-title">Leave Information</div>
+                            <div class="section-subtitle">Specify the type and duration of your leave</div>
+                        </div>
+                    </div>
+                    <div class="form-group full-width">
+                        <label for="leaveType">Leave Type <span class="required">*</span></label>
+                        <div class="dropdown-wrapper">
+                            <select name="leaveType" id="leaveType" required>
+                                <option value="">Select leave type</option>
+                                <option value="annual">Annual Leave</option>
+                                <option value="sick">Sick Leave</option>
+                                <option value="maternity">Maternity Leave(90 days)</option>
+                                <option value="paternity">Paternity Leave(14 days)</option>
+                                <option value="emergency">Emergency Leave</option>
+                                <option value="off duty">Off duty</option>
+                                <option value="Leave without pay">Leave without pay</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <!-- START: MODIFIED BLOCK -->
+                    <div class="form-row">
+                        <div class="form-group full-width">
+                            <label for="leaveDates">Select Leave Dates <span class="required">*</span></label>
+                            <input type="text" id="leaveDates" placeholder="Click to pick one or more dates..." required readonly>
+                        </div>
+                    </div>
+                    <!-- END: MODIFIED BLOCK -->
+
+                    <div class="days-info">
+                        <div class="days-info-left">
+                            <div class="days-info-icon">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/></svg>
+                            </div>
+                            <div>
+                                <div>Total Days Taken</div>
+                                <div style="font-size: 12px; opacity: 0.7;">(Include weekends)</div>
+                            </div>
+                        </div>
+                        <div class="days-count animate-value" id="totalDays">0 days</div>
+                    </div>
+                </div>
+
+                <div class="section">
+                    <div class="section-header">
+                        <div class="section-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M16 3c1.1 0 2 .9 2 2v1h4v2h-1v9c0 1.1-.9 2-2 2H5c-1.1 0-2-.9-2-2V8H2V6h4V5c0-1.1.9-2 2-2h8zM8 5v1h8V5H8zm11 3H5v9h14V8zM7 10h2v7H7v-7zm4 0h2v7h-2v-7zm4 0h2v7h-2v-7z"/></svg>
+                        </div>
+                        <div>
+                            <div class="section-title">Work Handover / Delegation</div>
+                            <div class="section-subtitle">Specify who will handle your responsibilities during your absence</div>
+                        </div>
+                    </div>
+                    <div class="form-group full-width">
+                        <label for="delegateName">Delegate Name <span class="required">*</span></label>
+                        <input type="text" name="delegateName" id="delegateName" placeholder="Full name of delegate" required>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <!-- START: RESTORED DROPDOWN BLOCK -->
+                            <label for="delegateEmail">Delegate's email address <span class="required">*</span></label>
+                            <div class="dropdown-wrapper">
+                                <select name="delegateEmail" id="delegateEmail" required>
+                                    <option value="">Select delegate's email</option>
+                                    <option value="shiku.muchoki@dcash.africa">shiku.muchoki@dcash.africa</option>
+                                    <option value="peter.kayere@dcash.africa">peter.kayere@dcash.africa</option>
+                                    <option value="paul.wahome@dcash.africa">paul.wahome@dcash.africa</option>
+                                    <option value="liz.wangechi@dcash.africa">liz.wangechi@dcash.africa</option>
+                                    <option value="lenny.steve@dcash.co.ke">lenny.steve@dcash.co.ke</option>
+                                    <option value="bridgetwanjiku@dcash.co.ke">bridgetwanjiku@dcash.co.ke</option>
+                                    <option value="charlottemumbi@dcash.co.ke">charlottemumbi@dcash.co.ke</option>
+                                    <option value="ritamargret@dcash.co.ke">ritamargret@dcash.co.ke</option>
+                                    <option value="mike.muiruri@dcash.co.ke">mike.muiruri@dcash.co.ke</option>
+                                    <option value="victor.mwakireti@dcash.co.ke">victor.mwakireti@dcash.co.ke</option>
+                                    <option value="ian.masae@dcash.co.ke">ian.masae@dcash.co.ke</option>
+                                    <option value="stephen.agai@dcash.co.ke">stephen.agai@dcash.co.ke</option>
+                                    <option value="victor.kilyungi@dcash.co.ke">victor.kilyungi@dcash.co.ke</option>
+                                    <option value="daniel.dawe@dcash.co.ke">daniel.dawe@dcash.co.ke</option>
+                                    <option value="robinson.muhia@dcash.co.ke">robinson.muhia@dcash.co.ke</option>
+                                    <option value="ephraim.kisaka@dcash.co.ke">ephraim.kisaka@dcash.co.ke</option>
+                                    <option value="alex.njoroge@dcash.co.ke">alex.njoroge@dcash.co.ke</option>
+                                    <option value="lina.muthoni@dcash.co.ke">lina.muthoni@dcash.co.ke</option>
+                                    <option value="cecily.wahome@dcash.co.ke">cecily.wahome@dcash.co.ke</option>
+                                    <option value="nasin.gedi@dcash.co.ke">nasin.gedi@dcash.co.ke</option>
+                                    <option value="geoffrey.k.omukuba@dcash.co.ke">geoffrey.k.omukuba@dcash.co.ke</option>
+                                </select>
+                            </div>
+                            <!-- END: RESTORED DROPDOWN BLOCK -->
+                        </div>
+                        <div class="form-group">
+                            <label for="delegatePhone">Delegate's Contact Number <span class="required">*</span></label>
+                            <input type="tel" name="delegatePhone" id="delegatePhone" placeholder="+254 712 345 678" required>
+                        </div>
+                    </div>
+                    <div class="form-group full-width">
+                        <label for="delegatePosition">Delegate's Position/Role <span class="required">*</span></label>
+                        <input type="text" name="delegatePosition" id="delegatePosition" placeholder="e.g., Senior Developer, Team Lead, Manager" required>
+                    </div>
+                    <div class="form-group full-width">
+                        <label for="handoverNotes">Handover Notes (Optional)</label>
+                        <textarea name="handoverNotes" id="handoverNotes" placeholder="Brief notes about key responsibilities, ongoing tasks, important contacts, deadlines, etc..." maxlength="300"></textarea>
+                        <div class="char-count"><span id="charCount">0</span>/300</div>
+                    </div>
+                    <div class="bottom-text">
+                        Provide key information to help your delegate
+                    </div>
+                </div>
+                
+                <!-- Hidden inputs to store and submit the calculated days and dates -->
+                <input type="hidden" id="daysRequested" name="daysRequested" value="0">
+                <input type="hidden" id="datesToSubmit" name="datesToSubmit" value="">
+
+
+                <button type="submit" class="submit-btn">Submit Application</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Flatpickr JS for the calendar -->
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+
+<script>
+    // Flatpickr Initialization
+  const leaveDatesPicker = flatpickr("#leaveDates", {
+  mode: "multiple",
+  dateFormat: "Y-m-d",
+  altInput: true,
+  altFormat: "F j, Y",
+  // ✅ allow past dates
+  // minDate: "today",
+
+  onChange: function (selectedDates) {
+            const totalDays = selectedDates.length;
+
+            document.getElementById('totalDays').textContent = `${totalDays} days`;
+            document.getElementById('daysRequested').value = totalDays;
+
+            const formattedDates = selectedDates.map(date => {
+                const year = date.getFullYear();
+                const month = String(date.getMonth() + 1).padStart(2, '0');
+                const day = String(date.getDate()).padStart(2, '0');
+                return `${year}-${month}-${day}`;
+            });
+
+            document.getElementById('datesToSubmit').value = formattedDates.join(", ");
+        }
+    });
+
+    // Character counter
+    document.getElementById('handoverNotes').addEventListener('input', function () {
+        document.getElementById('charCount').textContent = this.value.length;
+    });
+
+    // Form submission
+    document.getElementById("leaveForm").addEventListener("submit", async (e) => {
+        e.preventDefault();
+
+        const btn = document.querySelector('.submit-btn');
+        const originalText = btn.textContent;
+        btn.textContent = 'Submitting...';
+        btn.disabled = true;
+
+        const data = Object.fromEntries(new FormData(e.target).entries());
+
+        try {
+            const res = await fetch("https://l3j2qk3a.rcsrv.net/webhook/leavefrom", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(data),
+            });
+
+            if (res.ok) {
+                alert("Leave form submitted successfully!");
+                e.target.reset();
+                leaveDatesPicker.clear();
+                document.getElementById('totalDays').textContent = '0 days';
+                document.getElementById('charCount').textContent = '0';
+            } else {
+                alert("Failed to submit. Please try again.");
+            }
+        } catch (err) {
+            alert("Network error — please check your connection.");
+        } finally {
+            btn.textContent = originalText;
+            btn.disabled = false;
+        }
+    });
+
+    // Input animations
+    document.querySelectorAll('input, select, textarea').forEach(input => {
+        input.addEventListener('focus', () => input.style.transform = 'translateY(-1px)');
+        input.addEventListener('blur', () => input.style.transform = 'translateY(0)');
+    });
+</script>
+
+
+</body>
+</html>
